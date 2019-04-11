@@ -43,15 +43,14 @@ class PrimaryNumbersGenerator implements Runnable {
     public void run() {
         String threadName = Thread.currentThread().getName();
         System.out.printf("%s is looking for primes from %d to %d%n", threadName, lowerBound, upperBound);
-        printPrimeNumbers(lowerBound, upperBound);
+        collectPrimeNumbers(lowerBound, upperBound);
     }
 
-    private void printPrimeNumbers(int lowerBound, int upperBound){
+    private void collectPrimeNumbers(int lowerBound, int upperBound){
         primaryNumbers = new ConcurrentLinkedQueue<>();
 
         for (int i = lowerBound; i < upperBound; i++) {
             if (isPrime(i)) {
-                //System.out.println(i);
                 primaryNumbers.add(i);
             }
         }
