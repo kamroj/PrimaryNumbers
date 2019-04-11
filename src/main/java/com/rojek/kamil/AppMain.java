@@ -20,10 +20,8 @@ public class AppMain {
         Thread primaryNumbersGetterThread = new Thread(getter, "Getter");
 
         firstPrimaryGeneratorThread.start();
-
         secondPrimaryGeneratorThread.start();
         secondPrimaryGeneratorThread.join();
-
         primaryNumbersGetterThread.start();
     }
 }

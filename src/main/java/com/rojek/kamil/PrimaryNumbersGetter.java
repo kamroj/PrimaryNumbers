@@ -10,7 +10,7 @@ import java.util.List;
 class PrimaryNumbersGetter implements Runnable{
     private final int quantity;
     private final List<PrimaryNumbersGenerator> generators;
-    private List<Integer> primaryNumbers;
+    private final List<Integer> primaryNumbers;
 
     PrimaryNumbersGetter(int quantity, List<PrimaryNumbersGenerator> threadsPool) {
         this.quantity = quantity;
@@ -28,8 +28,8 @@ class PrimaryNumbersGetter implements Runnable{
                 break;
             }
         }
-        Printer.toConsole(primaryNumbers);
-        Printer.toFile(primaryNumbers, "./PrimaryNumbers");
+        //Printer.toConsole(primaryNumbers);
+        Printer.toFile(primaryNumbers, "./PrimeNumbers");
     }
 
     private boolean getPrimaryNumbersFromThreads(){
@@ -51,19 +51,4 @@ class PrimaryNumbersGetter implements Runnable{
         }
         return temp.isEmpty();
     }
-
-//    private void writeResultsToFile() {
-//        File file = new File("./Storage.txt");
-//        try (FileWriter fw = new FileWriter(file);
-//             BufferedWriter bw = new BufferedWriter(fw)) {
-//
-//            for (Integer primaryNumber : primaryNumbers) {
-//                System.out.println(primaryNumber);
-//                bw.write(primaryNumber.toString());
-//                bw.append("\n");
-//            }
-//        } catch (IOException e) {
-//            e.getCause();
-//        }
-//    }
 }
