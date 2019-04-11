@@ -1,4 +1,4 @@
-package com.rojek.kamil;
+package com.rojek.kamil.primary_numbers;
 
 
 import java.io.BufferedWriter;
@@ -18,7 +18,6 @@ class Printer {
              BufferedWriter bw = new BufferedWriter(fw)) {
 
             for (Integer primaryNumber : primaryNumbers) {
-                System.out.println(primaryNumber);
                 bw.write(primaryNumber.toString());
                 bw.append("\n");
             }

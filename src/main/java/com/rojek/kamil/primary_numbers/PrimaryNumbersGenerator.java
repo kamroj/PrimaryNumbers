@@ -1,4 +1,4 @@
-package com.rojek.kamil;
+package com.rojek.kamil.primary_numbers;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -6,19 +6,19 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * @author Kamil Rojek
  */
-class PrimaryNumbersGenerator implements Runnable {
+public class PrimaryNumbersGenerator extends Thread {
     private final int lowerBound;
     private final int upperBound;
     private Queue<Integer> primaryNumbers;
-    private String name;
 
     private PrimaryNumbersGenerator(int lowerBound, int upperBound, String name) {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
-        this.name = name;
+        primaryNumbers = new ConcurrentLinkedQueue<>();
+        setName(name);
     }
 
-    static PrimaryNumbersGenerator createNumberGenerator(int lowerBound, int upperBound, String name) {
+    public static PrimaryNumbersGenerator createNumberGenerator(int lowerBound, int upperBound, String name) {
         if (upperBound <= lowerBound)
             throw new IllegalArgumentException("Upper bound must be bigger than lower bound!");
         return new PrimaryNumbersGenerator(lowerBound, upperBound, name);
@@ -35,8 +35,11 @@ class PrimaryNumbersGenerator implements Runnable {
         return primaryNumbersPack;
     }
 
-    String getName(){
-        return name;
+    boolean isWorking(){
+        return this.isAlive();
+    }
+    boolean hasRequiredPrimeNumbers(int quantity){
+        return primaryNumbers.size() >= quantity;
     }
 
     @Override
@@ -47,8 +50,6 @@ class PrimaryNumbersGenerator implements Runnable {
     }
 
     private void collectPrimeNumbers(int lowerBound, int upperBound){
-        primaryNumbers = new ConcurrentLinkedQueue<>();
-
         for (int i = lowerBound; i < upperBound; i++) {
             if (isPrime(i)) {
                 primaryNumbers.add(i);

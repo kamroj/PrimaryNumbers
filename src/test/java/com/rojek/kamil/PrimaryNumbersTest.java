@@ -1,5 +1,7 @@
 package com.rojek.kamil;
 
+import com.rojek.kamil.primary_numbers.PrimaryNumbersGenerator;
+import com.rojek.kamil.primary_numbers.PrimaryNumbersGetter;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -15,7 +17,7 @@ import java.util.List;
 public class PrimaryNumbersTest {
 
     @Test(invocationCount = 1000)
-    public void check_if_genereted_primary_numbers_are_correct() throws InterruptedException, IOException {
+    public void check_if_generated_primary_numbers_are_correct() throws InterruptedException, IOException {
         //Arrange
         PrimaryNumbersGenerator firstGenerator = PrimaryNumbersGenerator
                 .createNumberGenerator(0, 1000, "1st Generator");
@@ -25,19 +27,14 @@ public class PrimaryNumbersTest {
         List<PrimaryNumbersGenerator> generators = new LinkedList<>(List.of(firstGenerator, secondGenerator));
         PrimaryNumbersGetter getter = new PrimaryNumbersGetter(50, generators);
 
-        Thread firstPrimaryGeneratorThread = new Thread(firstGenerator, firstGenerator.getName());
-        Thread secondPrimaryGeneratorThread = new Thread(secondGenerator, secondGenerator.getName());
-        Thread primaryNumbersGetterThread = new Thread(getter, "Getter");
+        firstGenerator.start();
+        secondGenerator.start();
+        getter.start();
+        getter.join();
 
-        //Act
-        firstPrimaryGeneratorThread.start();
-        secondPrimaryGeneratorThread.start();
-        secondPrimaryGeneratorThread.join();
-        primaryNumbersGetterThread.start();
-        primaryNumbersGetterThread.join();
 
         BufferedReader expected = new BufferedReader(new FileReader("./PNAssertion"));
-        BufferedReader output = new BufferedReader(new FileReader("./PrimeNumbers"));
+        BufferedReader output = new BufferedReader(new FileReader("./PrimaryNumbers"));
 
         //Assert
         String expectedLine;
